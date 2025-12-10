@@ -1,11 +1,13 @@
 package com.narcisdev.mountvault.feature.auth.register
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -14,6 +16,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -25,7 +28,7 @@ import com.narcisdev.mountvault.R
 
 @Composable
 fun RegisterScreen(
-    viewModel: RegisterViewModel,
+    viewModel: RegisterViewModel = hiltViewModel(),
     backToLogin: () -> Unit,
     navigateToMain: () -> Unit
 ) {
@@ -39,10 +42,16 @@ fun RegisterScreen(
 
     Scaffold { padding ->
         Column(Modifier.padding(padding)) {
-            Icon(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "Back button",
-                Modifier.clickable { backToLogin() })
+            Image(
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(start = 20.dp)
+                    .size(30.dp)
+                    .clickable {
+                        backToLogin()
+                    },
+                painter = painterResource(R.drawable.back), contentDescription = null
+            )
             Spacer(Modifier.height(16.dp))
             TextField(
                 value = uiState.age.toString().trim(),

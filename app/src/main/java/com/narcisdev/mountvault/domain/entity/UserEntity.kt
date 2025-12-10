@@ -13,7 +13,7 @@ data class UserEntity(
     val username: String = "",
 ) {
     override fun toString(): String {
-        return "UserEntity(age=$age, createdAt=$createdAt, email='$email', ownedCards=$ownedCards userType='$userType', userUrl='$userUrl', username='$username')"
+        return "UserEntity(age=$age, createdAt=$createdAt, email='$email', userType='$userType', userUrl='$userUrl', username='$username', ownedCards=$ownedCards)"
     }
 
 }

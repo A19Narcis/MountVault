@@ -29,13 +29,14 @@ class UserPreferencesDataSource @Inject constructor (@ApplicationContext private
     // Leer DataStore (Flow<UserData>)
     val userFlow: Flow<UserEntity?> = context.dataStore.data.map { prefs ->
         val email = prefs[EMAIL] ?: return@map null
+
         UserEntity(
             email = email,
             username = prefs[USERNAME] ?: "",
             age = prefs[AGE] ?: 0,
             userUrl = prefs[USER_URL] ?: "",
             userType = prefs[USER_TYPE] ?: "",
-            ownedCards = prefs[OWNED_CARDS]?.toList() ?: emptyList()
+            ownedCards = prefs[OWNED_CARDS]?.toList() ?: emptyList(),
         )
     }
 
@@ -53,6 +54,14 @@ class UserPreferencesDataSource @Inject constructor (@ApplicationContext private
             prefs[USER_URL] = user.userUrl
             prefs[USER_TYPE] = user.userType
             prefs[OWNED_CARDS] = user.ownedCards.toSet()
+        }
+    }
+
+    suspend fun addOwnedMounts(newMounts: List<String>) {
+        context.dataStore.edit { prefs ->
+            val current = prefs[OWNED_CARDS]?.toMutableSet() ?: mutableSetOf()
+            current.addAll(newMounts)
+            prefs[OWNED_CARDS] = current
         }
     }
 
@@ -79,13 +88,6 @@ class UserPreferencesDataSource @Inject constructor (@ApplicationContext private
         }
     }
 
-    // Añadir una carta nueva al usuario
-    suspend fun addOwnedCard(cardId: String) {
-        context.dataStore.edit { prefs ->
-            val current = prefs[OWNED_CARDS] ?: emptySet()
-            prefs[OWNED_CARDS] = current + cardId
-        }
-    }
 
     // Limpiar datos al hacer logout
     suspend fun clear() {

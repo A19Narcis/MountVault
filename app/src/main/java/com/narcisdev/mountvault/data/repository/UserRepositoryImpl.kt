@@ -1,8 +1,8 @@
 package com.narcisdev.mountvault.data.repository
 
 import android.util.Log
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import com.narcisdev.mountvault.domain.entity.UserEntity
 import com.narcisdev.mountvault.domain.repository.UserRepository
 import com.narcisdev.mountvault.core.components.Constants
@@ -15,6 +15,9 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore, private val local: UserPreferencesDataSource
 ) : UserRepository {
+
+    private val firestore = FirebaseFirestore.getInstance()
+
     override suspend fun fetchUserRemote(uid: String): UserEntity? {
         return try {
             val snap = db.collection("users").document().get().await()

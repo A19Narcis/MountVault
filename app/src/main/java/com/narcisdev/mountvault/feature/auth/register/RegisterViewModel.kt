@@ -1,16 +1,12 @@
 package com.narcisdev.mountvault.feature.auth.register
 
 import android.util.Log
-import androidx.credentials.PasswordCredential
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Timestamp
 import com.narcisdev.mountvault.core.components.Constants
 import com.narcisdev.mountvault.data.local.UserPreferencesDataSource
 import com.narcisdev.mountvault.domain.entity.UserEntity
-import com.narcisdev.mountvault.domain.usecase.LoginUseCase
 import com.narcisdev.mountvault.domain.usecase.RegisterUseCase
-import com.narcisdev.mountvault.feature.auth.login.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

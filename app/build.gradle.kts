@@ -54,6 +54,19 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    implementation(libs.androidx.compose.foundation.layout)
+
+    // Room
+    val room_version = "2.8.4"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-rxjava2:$room_version")
+    implementation("androidx.room:room-rxjava3:$room_version")
+    implementation("androidx.room:room-guava:$room_version")
+    testImplementation("androidx.room:room-testing:$room_version")
+    implementation("androidx.room:room-paging:$room_version")
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -77,7 +90,6 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
 
-    // Firebase
 
     // Firestore / Auth / Storage
     implementation(platform(libs.firebase.bom))

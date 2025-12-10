@@ -6,6 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.narcisdev.mountvault.domain.usecase.LoginUseCase
 import com.narcisdev.mountvault.core.components.Constants
 import com.narcisdev.mountvault.data.local.UserPreferencesDataSource
+import com.narcisdev.mountvault.domain.usecase.SyncAvatarsUseCase
+import com.narcisdev.mountvault.domain.usecase.SyncExpansionsUseCase
+import com.narcisdev.mountvault.domain.usecase.SyncMountsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +21,10 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val userPrefs: UserPreferencesDataSource
+    private val userPrefs: UserPreferencesDataSource,
+    private val syncMountsUseCase: SyncMountsUseCase,
+    private val syncExpansionsUseCase: SyncExpansionsUseCase,
+    private val syncAvatarsUseCase: SyncAvatarsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
@@ -54,6 +60,17 @@ class LoginViewModel @Inject constructor(
                 }
             }
 
+        }
+    }
+    
+    fun loadFromFirebaseIntoRoom(onCompletion: () -> Unit){
+        viewModelScope.launch (Dispatchers.Main) {
+            syncMountsUseCase.invoke()
+            syncExpansionsUseCase.invoke()
+            syncAvatarsUseCase.invoke()
+            withContext(Dispatchers.Main) {
+                onCompletion()
+            }
         }
     }
 }

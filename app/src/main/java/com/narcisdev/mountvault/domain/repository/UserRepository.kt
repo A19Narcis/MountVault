@@ -9,4 +9,5 @@ interface UserRepository {
     fun getUserLocal(): Flow<UserEntity>
     suspend fun updateUserLocal(update: (UserEntity) -> UserEntity)
     suspend fun removeUserLocal()
+    suspend fun updateFirebaseUser(user: UserEntity)
 }

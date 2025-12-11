@@ -51,12 +51,10 @@ class LoginViewModel @Inject constructor(
                 userPrefs.saveUser(responseLogin)
                 withContext(Dispatchers.Main) {
                     _uiState.update { it.copy(loginSuccess = true, error = null) }
-                    Log.i(Constants.APP_NAME, "SUCCESS: $responseLogin")
                 }
             } else {
                 withContext(Dispatchers.Main) {
                     _uiState.update { it.copy(loginSuccess = false, error = Constants.LOGIN_FAILED_MSG) }
-                    Log.i(Constants.APP_NAME, "ERROR: Login failed")
                 }
             }
 
@@ -76,8 +74,8 @@ class LoginViewModel @Inject constructor(
 }
 
 data class LoginUiState(
-    val userEntry: String = "Neisis",
-    val password: String = "123456",
+    val userEntry: String = "",
+    val password: String = "",
     val isLoading: Boolean = false,
     val loginSuccess: Boolean = false,
     val error: String? = null

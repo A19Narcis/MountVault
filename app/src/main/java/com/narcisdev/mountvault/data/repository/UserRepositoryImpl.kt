@@ -1,7 +1,6 @@
 package com.narcisdev.mountvault.data.repository
 
 import android.util.Log
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.narcisdev.mountvault.domain.entity.UserEntity
 import com.narcisdev.mountvault.domain.repository.UserRepository
@@ -43,5 +42,18 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun removeUserLocal() {
         local.clear()
+    }
+
+    override suspend fun updateFirebaseUser(user: UserEntity) {
+        val usersSnapshot = db.collection("users").whereEqualTo("username", user.username).get().await()
+
+        if (usersSnapshot != null) {
+            val userDocument = usersSnapshot.documents.first()
+            userDocument.reference.update(
+                mapOf(
+                    "userUrl" to user.userUrl
+                )
+            ).await()
+        }
     }
 }

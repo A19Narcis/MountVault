@@ -1,6 +1,7 @@
 package com.narcisdev.mountvault.data.local
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -16,6 +17,18 @@ import javax.inject.Inject
 private val Context.dataStore by preferencesDataStore(name = "user_prefs")
 
 class UserPreferencesDataSource @Inject constructor (@ApplicationContext private val context: Context) {
+
+    private val FIRST_RUN_KEY = booleanPreferencesKey("first_run")
+
+    suspend fun clearOnFirstRun(context: Context, userPreferencesDataSource: UserPreferencesDataSource) {
+        context.dataStore.edit { prefs ->
+            val isFirstRun = prefs[FIRST_RUN_KEY] ?: true
+            if (isFirstRun) {
+                prefs.clear()
+                prefs[FIRST_RUN_KEY] = false
+            }
+        }
+    }
 
     companion object {
         private val EMAIL = stringPreferencesKey("email")
@@ -65,7 +78,12 @@ class UserPreferencesDataSource @Inject constructor (@ApplicationContext private
         }
     }
 
-    // Actualizar usuario
+    suspend fun editUserUrl(url: String) {
+        context.dataStore.edit { prefs ->
+            prefs[USER_URL] = url
+        }
+    }
+
     suspend fun updateUser(update: (UserEntity) -> UserEntity) {
         context.dataStore.edit { prefs ->
             val current = UserEntity(

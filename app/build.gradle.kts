@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
     implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.animation)
 
     // Room
     val room_version = "2.8.4"

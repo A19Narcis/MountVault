@@ -11,8 +11,9 @@ data class UpdateUserUseCase @Inject constructor(
     suspend operator fun invoke(user: UserEntity) {
         userRepository.updateUserLocal({ currentUser ->
             currentUser.copy(
-                username = user.username, age = user.age, userUrl = user.userUrl
+                userUrl = user.userUrl
             )
         })
+        userRepository.updateFirebaseUser(user)
     }
 }

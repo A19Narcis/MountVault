@@ -39,7 +39,6 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getEmailByUsername(username: String): String? {
         return try {
             val snapshot = db.collection("usernames").document(username).get().await()
-            Log.i(Constants.APP_NAME, "Email from username: ${snapshot.getString("email")}")
             snapshot.getString("email")
         } catch (e: Exception) {
             Log.i(Constants.APP_NAME, "Error getEmailByUsername: ${e.toString()}")

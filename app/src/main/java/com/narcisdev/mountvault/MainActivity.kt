@@ -41,8 +41,8 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         val currentUser = auth.currentUser
 
-        if (currentUser == null) {
-            Log.i(Constants.APP_NAME, currentUser.toString())
+        if (currentUser != null) {
+            Log.i(Constants.APP_NAME, currentUser.email.toString())
         }
     }
 }

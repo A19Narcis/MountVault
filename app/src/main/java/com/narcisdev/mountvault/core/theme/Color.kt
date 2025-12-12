@@ -16,3 +16,16 @@ val wow_lightBlue = Color(0xFF1C9CD8)
 val wow_darkBlue = Color(0xFF0B4A7A)
 val wow_golden = Color(0xFFF6C342)
 val wow_darkGolden = Color(0xFFC88A1C)
+
+
+val rankSDark = Color(0xFFB8860B)
+val rankSLight = Color(0xFFFFE47A)
+
+val rankADark = Color(0xFF7A1FA2)
+val rankALight = Color(0xFFD8B0FF)
+
+val rankBDark = Color(0xFF0A4CA3)
+val rankBLight = Color(0xFFA8CFFF)
+
+val rankCDark = Color(0xFF6B6B6B)
+val rankCLight = Color(0xFFD9D9D9)

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -17,6 +18,7 @@ fun MountVaultErrorText(
 ) {
     Text(
         text = error,
+        textAlign = TextAlign.Center,
         fontWeight = FontWeight.ExtraBold,
         fontStyle = FontStyle.Italic,
         color = Color.Red,

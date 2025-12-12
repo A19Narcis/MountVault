@@ -87,33 +87,63 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onRegisterClicked() {
+
         validateEmail()
         validateAge()
         validateUsername()
         validatePassword()
-        if (_uiState.value.emailError != null || _uiState.value.ageError != null || _uiState.value.usernameError != null || _uiState.value.passwordError != null) {
+
+        if (_uiState.value.emailError != null ||
+            _uiState.value.ageError != null ||
+            _uiState.value.usernameError != null ||
+            _uiState.value.passwordError != null
+        ) {
             return
         }
+
         viewModelScope.launch(Dispatchers.IO) {
+
+            // Activar loading
+            withContext(Dispatchers.Main) {
+                _uiState.update { it.copy(isLoading = true) }
+            }
+
             val user = UserEntity(
                 username = _uiState.value.username,
                 email = _uiState.value.email,
                 age = _uiState.value.age.toInt()
             )
+
             val responseRegister = registerUseCase.invoke(
                 user,
                 password = _uiState.value.password,
             )
 
             if (responseRegister != null) {
-                // Guardar en DataStore
                 userPrefs.saveUser(responseRegister)
+
                 withContext(Dispatchers.Main) {
-                    _uiState.update { it.copy(registerSuccess = true, errorRegister = null, emailError = null, ageError = null, usernameError = null, passwordError = null) }
+                    _uiState.update {
+                        it.copy(
+                            registerSuccess = true,
+                            errorRegister = null,
+                            isLoading = false,
+                            emailError = null,
+                            ageError = null,
+                            usernameError = null,
+                            passwordError = null
+                        )
+                    }
                 }
             } else {
                 withContext(Dispatchers.Main) {
-                    _uiState.update { it.copy(registerSuccess = false, errorRegister = Constants.REGISTER_FAILED_MSG) }
+                    _uiState.update {
+                        it.copy(
+                            registerSuccess = false,
+                            errorRegister = Constants.REGISTER_FAILED_MSG,
+                            isLoading = false
+                        )
+                    }
                     Log.i(Constants.APP_NAME, "ERROR: Register failed")
                 }
             }

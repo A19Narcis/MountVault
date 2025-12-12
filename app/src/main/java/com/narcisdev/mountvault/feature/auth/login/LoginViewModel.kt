@@ -43,21 +43,38 @@ class LoginViewModel @Inject constructor(
 
     fun onLoginClick() {
         viewModelScope.launch(Dispatchers.IO) {
+
+            withContext(Dispatchers.Main) {
+                _uiState.update { it.copy(isLoading = true) }
+            }
+
             val responseLogin = loginUseCase.invoke(
-                identifier = _uiState.value.userEntry, password = _uiState.value.password
+                identifier = _uiState.value.userEntry,
+                password = _uiState.value.password
             )
+
             if (responseLogin != null) {
-                // Guardar en DataStore
                 userPrefs.saveUser(responseLogin)
                 withContext(Dispatchers.Main) {
-                    _uiState.update { it.copy(loginSuccess = true, error = null) }
+                    _uiState.update {
+                        it.copy(
+                            loginSuccess = true,
+                            error = null,
+                            isLoading = false
+                        )
+                    }
                 }
             } else {
                 withContext(Dispatchers.Main) {
-                    _uiState.update { it.copy(loginSuccess = false, error = Constants.LOGIN_FAILED_MSG) }
+                    _uiState.update {
+                        it.copy(
+                            loginSuccess = false,
+                            error = Constants.LOGIN_FAILED_MSG,
+                            isLoading = false
+                        )
+                    }
                 }
             }
-
         }
     }
     

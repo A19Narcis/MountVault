@@ -1,41 +1,31 @@
 package com.narcisdev.mountvault.feature.app.mounts
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
-import com.narcisdev.mountvault.feature.app.main.MainScreen
-import com.narcisdev.mountvault.feature.app.navigationBar.MyNavigationBar
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.narcisdev.mountvault.core.components.MountScreenExpansionCard
 
 @Composable
-fun MountsScreen(padding: PaddingValues) {
-    Column(
-        Modifier
-            .padding(padding)
-            .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(Modifier.weight(1f))
-        Text("HOOOLA ESTAS EN LA MOUNTS SCREEN", fontSize = 20.sp)
-        Spacer(Modifier.weight(1f))
+fun MountsScreen(
+    padding: PaddingValues,
+    viewModel: MountsViewModel
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    Column(modifier = Modifier.padding(padding)) {
+        LazyColumn() {
+            items(uiState.expansions, key = { it.id }) { expansion ->
+                MountScreenExpansionCard(expansion)
+            }
+        }
     }
-}
-
-@Preview(
-    name = "Light",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    showSystemUi = true
-)
-@Composable
-fun PreviewLoginLight() {
-    MountsScreen(padding = PaddingValues())
 }

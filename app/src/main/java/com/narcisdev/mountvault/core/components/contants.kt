@@ -1,6 +1,7 @@
 package com.narcisdev.mountvault.core.components
 
 import androidx.compose.ui.graphics.Color
+import com.narcisdev.mountvault.R
 import com.narcisdev.mountvault.core.theme.ExpansionColors
 
 object Constants {
@@ -41,6 +42,20 @@ object Constants {
         Expansion.Shadowlands to ExpansionColors.Shadowlands,
         Expansion.Dragonflight to ExpansionColors.Dragonflight,
         Expansion.TWW to ExpansionColors.TWW
+    )
+
+    val drawableListExpansionMiniLogo = listOf(
+        R.drawable.classic,
+        R.drawable.tbc,
+        R.drawable.wotlk,
+        R.drawable.cata,
+        R.drawable.panda,
+        R.drawable.draenor,
+        R.drawable.legion,
+        R.drawable.bfa,
+        R.drawable.shadow,
+        R.drawable.dragon,
+        R.drawable.tww
     )
 
     fun getExpansionColorsFromUrl(url: String?, colorMap: Map<Expansion, List<Color>>): List<Color> {

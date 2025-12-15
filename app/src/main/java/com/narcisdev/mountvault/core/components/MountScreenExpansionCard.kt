@@ -3,6 +3,7 @@ package com.narcisdev.mountvault.core.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +37,8 @@ import com.narcisdev.mountvault.domain.entity.ExpansionEntity
 
 @Composable
 fun MountScreenExpansionCard(
-    expansion: ExpansionEntity
+    expansion: ExpansionEntity,
+    modifier: Modifier = Modifier
 ) {
     val expansionId = expansion.id
 
@@ -93,7 +95,7 @@ fun MountScreenExpansionCard(
 
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(180.dp)
             .padding(top = 15.dp, start = 20.dp, end = 20.dp)
@@ -104,7 +106,8 @@ fun MountScreenExpansionCard(
                 width = 4.dp,
                 brush = Brush.horizontalGradient(colors),
                 shape = MaterialTheme.shapes.extraLarge
-            ), shape = MaterialTheme.shapes.extraLarge, colors = CardDefaults.cardColors(
+            ),
+        shape = MaterialTheme.shapes.extraLarge, colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         )
     ) {
@@ -143,7 +146,6 @@ fun MountScreenExpansionCard(
                         .size(40.dp)
                 )
 
-                val textMounts = if (expansion.mounts.size > 1) "Mounts" else "Mount"
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
@@ -152,7 +154,7 @@ fun MountScreenExpansionCard(
                 ) {
                     Text(
 
-                        text = "${expansion.mounts.size} $textMounts", fontFamily = WowFont
+                        text = "Mounts: ${expansion.totalMounts}", fontFamily = WowFont
                     )
                     Image(
                         painter = painterResource(R.drawable.dropdown),
@@ -176,7 +178,7 @@ fun MountCardPreview() {
         id = "vanilla",
         name = "World of Warcraft",
         mounts = listOf("1","2"),
-        totalMounts = "2",
+        totalMounts = "3456",
         year = "2004"
     )
 

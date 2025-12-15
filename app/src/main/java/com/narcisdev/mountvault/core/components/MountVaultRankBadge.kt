@@ -1,5 +1,6 @@
 package com.narcisdev.mountvault.core.components
 
+import android.R.attr.maxWidth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -40,18 +41,17 @@ fun MountVaultRankBadge(
 
     Box(
         modifier = modifier
-            .size(28.dp)
             .clip(CircleShape)
             .background(bgColor)
             .border(1.dp, borderColor, CircleShape),
         contentAlignment = Alignment.Center
     ) {
+
         Text(
             text = textRank,
             fontFamily = WowFont,
-            textAlign = TextAlign.Center,
             color = borderColor,
-            fontSize = 14.sp,
+            fontSize = 20.sp,
             modifier = Modifier.padding(top = 2.dp)
         )
     }

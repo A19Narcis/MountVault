@@ -1,4 +1,4 @@
-package com.narcisdev.mountvault.feature.app.mounts
+package com.narcisdev.mountvault.feature.app.expansionMounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,7 @@ import com.narcisdev.mountvault.data.local.UserPreferencesDataSource
 import com.narcisdev.mountvault.domain.entity.ExpansionEntity
 import com.narcisdev.mountvault.domain.entity.MountEntity
 import com.narcisdev.mountvault.domain.usecase.GetExpansionsUseCase
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,13 +17,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class MountsViewModel @Inject constructor(
+class ExpansionMountsViewModel @Inject constructor(
 
     private val getExpansionsUseCase: GetExpansionsUseCase,
     private val userPreferencesDataSource: UserPreferencesDataSource
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(MountsUiState())
-    val uiState: StateFlow<MountsUiState> = _uiState
+    private val _uiState = MutableStateFlow(ExpansionMountsUiState())
+    val uiState: StateFlow<ExpansionMountsUiState> = _uiState
 
     init {
         loadMountsData()
@@ -44,13 +45,12 @@ class MountsViewModel @Inject constructor(
                 }
             }
         }
-
     }
 
 
 }
 
-data class MountsUiState(
+data class ExpansionMountsUiState(
     val selectedExpansions: List<ExpansionEntity> = emptyList(),
     val selectedRarities: List<String> = emptyList(),
     val userMounts: List<MountEntity> = emptyList(),

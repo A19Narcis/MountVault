@@ -1,6 +1,5 @@
 package com.narcisdev.mountvault.feature.app.profile
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,7 +51,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.narcisdev.mountvault.R
-import com.narcisdev.mountvault.core.components.Constants
 import com.narcisdev.mountvault.core.components.Constants.expansionColorMap
 import com.narcisdev.mountvault.core.components.Constants.getExpansionColorsFromUrl
 import com.narcisdev.mountvault.core.components.ExpansionCard
@@ -74,6 +70,8 @@ fun ProfileScreen(
     onEditModeChange: (Boolean) -> Unit,
     onLogoutSuccess: () -> Unit,
 ) {
+    val mounts by viewModel.mounts.collectAsStateWithLifecycle()
+    val userMounts by viewModel.userMounts.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isRefreshing by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -368,11 +366,11 @@ fun ProfileScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(uiState.expansions, key = { it.id }) { expansion ->
-                    val expansionMounts = remember(expansion.id, uiState.mounts) {
-                        uiState.mounts.filter { it.expansionId == expansion.id }
+                    val expansionMounts = remember(expansion.id, mounts) {
+                        mounts.filter { it.expansionId == expansion.id }
                     }
-                    val userMountsForExpansion = remember(expansion.id, uiState.userMounts) {
-                        uiState.userMounts.filter { it.expansionId == expansion.id }
+                    val userMountsForExpansion = remember(expansion.id, userMounts) {
+                        userMounts.filter { it.expansionId == expansion.id }
                     }
 
                     ExpansionCard(

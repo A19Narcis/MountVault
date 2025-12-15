@@ -1,13 +1,12 @@
 package com.narcisdev.mountvault.domain.repository
 
 import com.narcisdev.mountvault.domain.entity.MountEntity
+import kotlinx.coroutines.flow.Flow
 
 interface MountRepository {
+    fun startMountsSync()
 
-    suspend fun getMountsFromFirebaseToRoom()
+    fun observeAllMounts(): Flow<List<MountEntity>>
 
-    suspend fun getAllMountsFromRoom(): List<MountEntity>
-
-    suspend fun getCollectedMountsFromUser(ids: List<String>): List<MountEntity>
-
+    fun observeCollectedMounts(ids: List<String>): Flow<List<MountEntity>>
 }

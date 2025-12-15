@@ -5,19 +5,17 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.narcisdev.mountvault.domain.entity.MountEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MountDao {
 
-    //Insert mounts in Room
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(mounts: List<MountEntity>)
 
-    // Get all mounts
     @Query("SELECT * FROM mounts")
-    suspend fun getAllMounts(): List<MountEntity>
+    fun observeAllMounts(): Flow<List<MountEntity>>
 
-    // Get mounts from user
     @Query("SELECT * FROM mounts WHERE id IN (:ids)")
-    suspend fun getAllMountsFromUser(ids: List<String>): List<MountEntity>
+    fun observeMountsFromUser(ids: List<String>): Flow<List<MountEntity>>
 }

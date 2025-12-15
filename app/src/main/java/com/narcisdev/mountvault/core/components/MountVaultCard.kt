@@ -65,25 +65,41 @@ fun MountVaultCard(mount: MountEntity) {
         }
     }
 
+    val expansionIcon = remember(expansionId) {
+        when (expansionId.replaceFirstChar { it.uppercase() }) {
+            "Vanilla" -> R.drawable.classic
+            "Tbc" -> R.drawable.tbc
+            "Wotlk" -> R.drawable.wotlk
+            "Cataclysm" -> R.drawable.cata
+            "Pandaria" -> R.drawable.panda
+            "Draenor" -> R.drawable.draenor
+            "Legion" -> R.drawable.legion
+            "Bfa" -> R.drawable.bfa
+            "Shadowlands" -> R.drawable.shadow
+            "Dragonflight" -> R.drawable.dragon
+            "Tww" -> R.drawable.tww
+            else -> R.drawable.classic
+        }
+    }
+
     Box(
         modifier = Modifier
-            .fillMaxWidth(0.33f)
-            .height(160.dp)
-            .padding(start = 5.dp, end = 5.dp)
+            .fillMaxWidth(0.50f)
+            .height(300.dp)
+            .padding(start = 2.dp, end = 2.dp)
     ) {
 
-        // --- CARD ---
         Card(
             modifier = Modifier
                 .matchParentSize()
                 .background(
                     brush = Brush.verticalGradient(colors),
-                    shape = RoundedCornerShape(10)
+                    shape = RoundedCornerShape(6)
                 )
                 .border(
                     width = 2.dp,
                     brush = Brush.horizontalGradient(colors),
-                    shape = RoundedCornerShape(10)
+                    shape = RoundedCornerShape(6)
                 ),
             shape = MaterialTheme.shapes.extraLarge,
             colors = CardDefaults.cardColors(containerColor = Color.Transparent),
@@ -92,17 +108,28 @@ fun MountVaultCard(mount: MountEntity) {
                 modifier = Modifier
                     .padding(8.dp)
             ) {
-                Text(
-                    text = mount.name,
-                    fontFamily = WowFont,
-                    maxLines = 1,
-                    autoSize = TextAutoSize.StepBased(
-                        minFontSize = 3.sp,
-                        maxFontSize = 10.sp,
-                    ),
-                    modifier = Modifier.padding(start = 18.dp)
-                )
-                Spacer(Modifier.height(3.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    MountVaultRankBadge(
+                        rank = mount.rarity,
+                        modifier = Modifier
+                            .size(25.dp)
+                            .zIndex(100f)
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Text(
+                        text = "Reins of the Long-Forgotten Hippogryph",
+                        fontFamily = WowFont,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        autoSize = TextAutoSize.StepBased(
+                            minFontSize = 12.sp,
+                            maxFontSize = 12.sp,
+                        ),
+                    )
+                }
+                Spacer(Modifier.height(4.dp))
                 Image(
                     painter = painterResource(R.drawable.swift_zulian_tiger),
                     contentDescription = null,
@@ -115,23 +142,14 @@ fun MountVaultCard(mount: MountEntity) {
             }
         }
 
-        MountVaultRankBadge(
-            rank = mount.rarity,
-            modifier = Modifier
-                .size(20.dp)
-                .align(Alignment.TopStart)
-                .padding(start = 4.dp, top = 4.dp)
-                .zIndex(100f)
-        )
-
         Image(
-            painter = painterResource(R.drawable.classic),
+            painter = painterResource(expansionIcon),
             contentDescription = null,
             modifier = Modifier
-                .size(20.dp)
+                .size(28.dp)
                 .align(Alignment.BottomStart)
                 .zIndex(100f)
-                .padding(start = 10.dp, bottom = 10.dp)
+                .padding(start = 12.dp, bottom = 12.dp)
         )
     }
 }
@@ -280,7 +298,7 @@ fun MountVaultCardPreview() {
         )
     )
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),

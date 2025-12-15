@@ -2,8 +2,10 @@ package com.narcisdev.mountvault.domain.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 @Entity(tableName = "mounts")
+@Serializable
 data class MountEntity(
     @PrimaryKey
     val id: String,

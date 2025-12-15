@@ -1,6 +1,7 @@
 package com.narcisdev.mountvault.core.navigation
 
 import android.app.Activity
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -24,8 +25,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.narcisdev.mountvault.core.components.Constants
 import com.narcisdev.mountvault.data.local.UserPreferencesDataSource
+import com.narcisdev.mountvault.domain.entity.ExpansionEntity
+import com.narcisdev.mountvault.domain.entity.MountEntity
 import com.narcisdev.mountvault.domain.entity.UserEntity
+import com.narcisdev.mountvault.feature.app.expansionMounts.ExpansionMountsScreen
+import com.narcisdev.mountvault.feature.app.expansionMounts.ExpansionMountsViewModel
 import com.narcisdev.mountvault.feature.app.main.MainScreen
 import com.narcisdev.mountvault.feature.app.mounts.MountsScreen
 import com.narcisdev.mountvault.feature.app.mounts.MountsViewModel
@@ -177,6 +183,24 @@ fun MountVaultAppNav3(userPreferencesDataSource: UserPreferencesDataSource) {
                     MountsScreen(
                         padding,
                         mountsViewModel
+                    ) { mounts, expansion ->
+                        Log.i(Constants.APP_NAME, "VAS A VER LAS CAAAAARTAS")
+                        backStack.add(Routes.ExpansionMounts(mounts = mounts, expansion = expansion))
+                    }
+                }
+                entry<Routes.ExpansionMounts> { route ->
+                    val expansionMountsViewModel: ExpansionMountsViewModel = hiltViewModel(key = "expansion-mounts-$logoutCounter")
+                    ExpansionMountsScreen(
+                        padding = padding,
+                        viewModel = expansionMountsViewModel,
+                        expansion = route.expansion,
+                        expansionMounts = route.mounts,
+                        onMountClicked = { mount ->
+                            // Acción al click
+                        },
+                        navigateBack = {
+                            backStack.removeLastOrNull()
+                        }
                     )
                 }
                 entry<Routes.Profile> {

@@ -8,16 +8,15 @@ import com.narcisdev.mountvault.data.database.MountVaultDatabase
 import com.narcisdev.mountvault.domain.repository.AvatarRepository
 import com.narcisdev.mountvault.domain.repository.ExpansionRepository
 import com.narcisdev.mountvault.domain.repository.MountRepository
+import com.narcisdev.mountvault.domain.usecase.StartMountsSyncUseCase
 import com.narcisdev.mountvault.domain.usecase.SyncAvatarsUseCase
 import com.narcisdev.mountvault.domain.usecase.SyncExpansionsUseCase
-import com.narcisdev.mountvault.domain.usecase.SyncMountsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import kotlin.jvm.java
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,7 +32,7 @@ object MountVaultRoomModule {
 
     @Provides
     @Singleton
-    fun provideMountUseCase(repo: MountRepository)= SyncMountsUseCase(repo)
+    fun provideMountUseCase(repo: MountRepository)= StartMountsSyncUseCase(repo)
 
     @Provides
     @Singleton

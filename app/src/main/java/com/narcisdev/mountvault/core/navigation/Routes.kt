@@ -1,6 +1,8 @@
 package com.narcisdev.mountvault.core.navigation
 
 import androidx.navigation3.runtime.NavKey
+import com.narcisdev.mountvault.domain.entity.ExpansionEntity
+import com.narcisdev.mountvault.domain.entity.MountEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -21,5 +23,5 @@ sealed class Routes : NavKey {
     data object Profile: Routes()
 
     @Serializable
-    data object Settings: Routes()
+    data class ExpansionMounts(val mounts: List<MountEntity>, val expansion: ExpansionEntity): Routes()
 }

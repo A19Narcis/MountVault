@@ -1,6 +1,7 @@
 package com.narcisdev.mountvault.data.local
 
 import android.content.Context
+import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -105,7 +106,6 @@ class UserPreferencesDataSource @Inject constructor (@ApplicationContext private
             prefs[OWNED_CARDS] = newUser.ownedCards.toSet()
         }
     }
-
 
     // Limpiar datos al hacer logout
     suspend fun clear() {

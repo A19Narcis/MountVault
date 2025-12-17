@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.narcisdev.mountvault.core.components.Constants
@@ -33,11 +34,14 @@ import com.narcisdev.mountvault.domain.entity.UserEntity
 import com.narcisdev.mountvault.feature.app.expansionMounts.ExpansionMountsScreen
 import com.narcisdev.mountvault.feature.app.expansionMounts.ExpansionMountsViewModel
 import com.narcisdev.mountvault.feature.app.main.MainScreen
+import com.narcisdev.mountvault.feature.app.main.MainViewModel
 import com.narcisdev.mountvault.feature.app.mounts.MountsScreen
 import com.narcisdev.mountvault.feature.app.mounts.MountsViewModel
 import com.narcisdev.mountvault.feature.app.navigationBar.MyNavigationBar
 import com.narcisdev.mountvault.feature.app.profile.ProfileScreen
 import com.narcisdev.mountvault.feature.app.profile.ProfileViewModel
+import com.narcisdev.mountvault.feature.app.selectedMount.SelectedMountScreen
+import com.narcisdev.mountvault.feature.app.selectedMount.SelectedMountViewModel
 import com.narcisdev.mountvault.feature.auth.login.LoginScreen
 import com.narcisdev.mountvault.feature.auth.login.LoginViewModel
 import com.narcisdev.mountvault.feature.auth.register.RegisterScreen
@@ -174,7 +178,9 @@ fun MountVaultAppNav3(userPreferencesDataSource: UserPreferencesDataSource) {
                     )
                 }
                 entry<Routes.Main> {
+                    val mainViewModel: MainViewModel = hiltViewModel(key = "main-$logoutCounter")
                     MainScreen(
+                        viewModel = mainViewModel,
                         padding = padding
                     )
                 }
@@ -184,7 +190,6 @@ fun MountVaultAppNav3(userPreferencesDataSource: UserPreferencesDataSource) {
                         padding,
                         mountsViewModel
                     ) { mounts, expansion ->
-                        Log.i(Constants.APP_NAME, "VAS A VER LAS CAAAAARTAS")
                         backStack.add(Routes.ExpansionMounts(mounts = mounts, expansion = expansion))
                     }
                 }
@@ -194,10 +199,21 @@ fun MountVaultAppNav3(userPreferencesDataSource: UserPreferencesDataSource) {
                         padding = padding,
                         viewModel = expansionMountsViewModel,
                         expansion = route.expansion,
-                        expansionMounts = route.mounts,
+                        mounts = route.mounts,
                         onMountClicked = { mount ->
-                            // Acción al click
+                            backStack.add(Routes.SelectedMount(mount = mount))
                         },
+                        navigateBack = {
+                            backStack.removeLastOrNull()
+                        }
+                    )
+                }
+                entry<Routes.SelectedMount> { route ->
+                    val selectedMountViewModel: SelectedMountViewModel = hiltViewModel(key = "selected-mount-$logoutCounter")
+                    SelectedMountScreen (
+                        padding = padding,
+                        mount = route.mount,
+                        viewModel = selectedMountViewModel,
                         navigateBack = {
                             backStack.removeLastOrNull()
                         }

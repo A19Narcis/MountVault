@@ -3,7 +3,6 @@ package com.narcisdev.mountvault.core.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -154,7 +153,7 @@ fun MountScreenExpansionCard(
                 ) {
                     Text(
 
-                        text = "Mounts: ${expansion.totalMounts}", fontFamily = WowFont
+                        text = "Mounts: ${expansion.mounts.size}", fontFamily = WowFont
                     )
                     Image(
                         painter = painterResource(R.drawable.dropdown),
@@ -178,7 +177,6 @@ fun MountCardPreview() {
         id = "vanilla",
         name = "World of Warcraft",
         mounts = listOf("1","2"),
-        totalMounts = "3456",
         year = "2004"
     )
 

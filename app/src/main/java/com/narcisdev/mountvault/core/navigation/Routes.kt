@@ -24,4 +24,7 @@ sealed class Routes : NavKey {
 
     @Serializable
     data class ExpansionMounts(val mounts: List<MountEntity>, val expansion: ExpansionEntity): Routes()
+
+    @Serializable
+    data class SelectedMount(val mount: MountEntity): Routes()
 }

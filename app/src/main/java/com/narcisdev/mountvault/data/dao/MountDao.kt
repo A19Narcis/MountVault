@@ -13,6 +13,9 @@ interface MountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(mounts: List<MountEntity>)
 
+    @Query("DELETE FROM mounts")
+    suspend fun clearAll()
+
     @Query("SELECT * FROM mounts")
     fun observeAllMounts(): Flow<List<MountEntity>>
 

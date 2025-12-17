@@ -72,7 +72,7 @@ fun ExpansionCard(
         }
     }
 
-    val progress = remember(expansionId) {
+    val progress = remember(expansionId, userMountsForExpansion) {
         calcularProgress(expansion, userMountsForExpansion)
     }
 
@@ -125,5 +125,5 @@ fun ExpansionCard(
 private fun calcularProgress(entity: ExpansionEntity, userMountsForExpansion: List<MountEntity>): Float {
     val userMounts = userMountsForExpansion.size
     if (userMounts == 0) return 0f
-    return userMounts / entity.totalMounts.toFloat()
+    return userMounts / entity.mounts.size.toFloat()
 }

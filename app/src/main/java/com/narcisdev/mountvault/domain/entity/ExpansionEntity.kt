@@ -12,6 +12,5 @@ data class ExpansionEntity(
     val name: String,
     val coverUrl: String,
     val mounts: List<String>,
-    val totalMounts: String,
     val year: String
 )

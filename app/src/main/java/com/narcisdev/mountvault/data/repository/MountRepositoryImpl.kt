@@ -28,24 +28,27 @@ class MountRepositoryImpl @Inject constructor(
                     return@addSnapshotListener
                 }
 
-                val mounts = snapshot?.documents?.map { doc ->
+                val mounts = snapshot?.documents?.mapNotNull { doc ->
+                    val id = doc.getString("id") ?: return@mapNotNull null
+                    val name = doc.getString("name") ?: return@mapNotNull null
+
                     MountEntity(
-                        id = doc.getString("id") ?: "No_Id",
-                        name = doc.getString("name") ?: "No_Name",
-                        faction = doc.getString("faction") ?: "No_Description",
-                        imageUrl = doc.getString("imageUrl") ?: "No_ImageUrl",
-                        rarity = doc.getString("rarity") ?: "No_Rarity",
-                        cost = doc.getString("cost") ?: "No_Cost",
-                        dropRate = (doc.getLong("dropRate") ?: 0L).toDouble(),
-                        expansionId = doc.getString("expansionId") ?: "No_ExpansionId",
-                        source = doc.getString("source") ?: "No_Source",
-                        type = doc.getString("type") ?: "No_Type",
+                        id = id,
+                        name = name,
+                        faction = doc.getString("faction") ?: "",
+                        imageUrl = doc.getString("imageUrl") ?: "",
+                        rarity = doc.getString("rarity") ?: "",
+                        cost = doc.getString("cost") ?: "",
+                        dropRate = (doc.getDouble("dropRate") ?: 0.0f).toDouble(),
+                        expansionId = doc.getString("expansionId") ?: "",
+                        source = doc.getString("source") ?: "",
+                        type = doc.getString("type") ?: ""
                     )
                 }.orEmpty()
 
                 CoroutineScope(Dispatchers.IO).launch {
+                    mountDao.clearAll()
                     mountDao.insertAll(mounts)
-                    Log.i(Constants.APP_NAME, "MOUNTS DE LA APP: $mounts")
                 }
             }
     }

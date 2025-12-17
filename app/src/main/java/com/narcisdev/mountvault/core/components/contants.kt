@@ -3,6 +3,7 @@ package com.narcisdev.mountvault.core.components
 import androidx.compose.ui.graphics.Color
 import com.narcisdev.mountvault.R
 import com.narcisdev.mountvault.core.theme.ExpansionColors
+import com.narcisdev.mountvault.domain.entity.PackEntity
 
 object Constants {
     const val APP_NAME = "MountVault_APP_NAME"
@@ -69,6 +70,35 @@ object Constants {
         return Expansion.entries.firstOrNull { expansion ->
             normalized.contains(expansion.key)
         }
+    }
+
+    fun getAllPacks(): List<PackEntity> {
+        return listOf(
+            PackEntity(
+                id = 1,
+                name = "Normal",
+                commonDropChange = "50",
+                rareDropChange = "30",
+                epicDropChange = "15",
+                legendaryDropChange = "5",
+            ),
+            PackEntity(
+                id = 2,
+                name = "Epic",
+                commonDropChange = "40",
+                rareDropChange = "30",
+                epicDropChange = "15",
+                legendaryDropChange = "10",
+            ),
+            PackEntity(
+                id = 3,
+                name = "Mythic",
+                commonDropChange = "40",
+                rareDropChange = "25",
+                epicDropChange = "20",
+                legendaryDropChange = "15",
+            )
+        )
     }
 
 }

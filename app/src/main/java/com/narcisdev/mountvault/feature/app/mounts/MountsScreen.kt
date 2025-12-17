@@ -1,5 +1,6 @@
 package com.narcisdev.mountvault.feature.app.mounts
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.narcisdev.mountvault.core.components.Constants
 import com.narcisdev.mountvault.core.components.MountScreenExpansionCard
 import com.narcisdev.mountvault.domain.entity.ExpansionEntity
 import com.narcisdev.mountvault.domain.entity.MountEntity
@@ -22,19 +24,9 @@ fun MountsScreen(
     viewModel: MountsViewModel,
     onExpansionClicked: (List<MountEntity>, ExpansionEntity) -> Unit
 ) {
+    val mounts by viewModel.mounts.collectAsStateWithLifecycle()
+    val userMounts by viewModel.userMounts.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val expansion: ExpansionEntity = ExpansionEntity(
-        coverUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/expansions/classic/classic.webp",
-        id = "vanilla",
-        name = "World of Warcraft",
-        mounts = listOf("1","2"),
-        totalMounts = "3456",
-        year = "2004"
-    )
-
-    var expansionClicked: ExpansionEntity
-    var expansionMounts: List<MountEntity>
 
     Column(modifier = Modifier.padding(padding)) {
         LazyColumn() {
@@ -45,7 +37,8 @@ fun MountsScreen(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
-                        onExpansionClicked(listOf(), expansion)
+                        Log.i(Constants.APP_NAME, "Expansion clicked: $expansion\nMounts $mounts")
+                        onExpansionClicked(mounts, expansion)
                     }
                 )
             }

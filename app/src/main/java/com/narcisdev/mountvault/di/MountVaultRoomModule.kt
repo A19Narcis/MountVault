@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object MountVaultRoomModule {
-    const val MOUNT_VAULT_DATABASE_NAME = "mount_vault_database"
+    const val MOUNT_VAULT_DATABASE_NAME = "mount_vault_database_v2"
 
     @Singleton
     @Provides

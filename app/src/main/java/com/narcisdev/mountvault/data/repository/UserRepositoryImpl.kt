@@ -1,6 +1,7 @@
 package com.narcisdev.mountvault.data.repository
 
 import android.util.Log
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.narcisdev.mountvault.domain.entity.UserEntity
 import com.narcisdev.mountvault.domain.repository.UserRepository
@@ -53,6 +54,22 @@ class UserRepositoryImpl @Inject constructor(
                 mapOf(
                     "userUrl" to user.userUrl
                 )
+            ).await()
+        }
+    }
+
+    override suspend fun updateFirebaseUserMounts(user: UserEntity) {
+        val usersSnapshot = db.collection("users")
+            .whereEqualTo("username", user.username)
+            .get()
+            .await()
+
+        if (!usersSnapshot.isEmpty) {
+            val userDocument = usersSnapshot.documents.first()
+
+            userDocument.reference.update(
+                "ownedCards",
+                FieldValue.arrayUnion(*user.ownedCards.toTypedArray())
             ).await()
         }
     }

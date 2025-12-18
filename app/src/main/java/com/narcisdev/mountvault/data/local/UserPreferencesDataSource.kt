@@ -85,6 +85,14 @@ class UserPreferencesDataSource @Inject constructor (@ApplicationContext private
         }
     }
 
+    suspend fun updateNewMounts(newMounts: List<String>) {
+        context.dataStore.edit { prefs ->
+            val current = prefs[OWNED_CARDS]?.toMutableSet() ?: mutableSetOf()
+            current.addAll(newMounts)
+            prefs[OWNED_CARDS] = current
+        }
+    }
+
     suspend fun updateUser(update: (UserEntity) -> UserEntity) {
         context.dataStore.edit { prefs ->
             val current = UserEntity(

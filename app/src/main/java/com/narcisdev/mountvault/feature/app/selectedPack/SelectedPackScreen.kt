@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -48,10 +49,6 @@ fun SelectedPackScreen(
     navigateBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val userMounts by viewModel.userMounts.collectAsStateWithLifecycle()
-    userMounts.forEach { mountEntity ->
-        Log.i(Constants.APP_NAME, "USER MOUNTS: ${mountEntity.name}")
-    }
     val allMounts by viewModel.mounts.collectAsStateWithLifecycle()
     var opened by remember { mutableStateOf(false) }
     var swipedCount by remember { mutableIntStateOf(0) }
@@ -60,6 +57,12 @@ fun SelectedPackScreen(
         mutableStateOf<List<MountEntity>>(emptyList())
     }
     val canShowButton = !opened || swipedCount >= openedMounts.size
+
+    LaunchedEffect(opened) {
+        if (opened) {
+            viewModel.updateUserCards(openedMounts)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -78,23 +81,6 @@ fun SelectedPackScreen(
                 .clickable { navigateBack() })
 
         Spacer(Modifier.weight(1f))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .height(24.dp) // altura fija igual al Text
-        ) {
-            if (uiState.isNewCard) {
-                Text(
-                    text = "* NEW *",
-                    fontFamily = WowFont,
-                    color = Color.Red,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .alpha(if (uiState.isNewCard) 1f else 0f)
-                )
-            }
-        }
         Box(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
@@ -118,7 +104,9 @@ fun SelectedPackScreen(
         }
         Spacer(Modifier.weight(1f))
         WowButton(
-            text = if (!opened) "Open" else "Close", fontSize = 16, onClick = {
+            text = if (!opened) "Open" else "Close",
+            fontSize = 16,
+            onClick = {
                 if (!opened) {
                     openedMounts = generateRandomMounts(packEntity, allMounts)
                     opened = true
@@ -126,7 +114,8 @@ fun SelectedPackScreen(
                     opened = false
                     swipedCount = 0
                 }
-            }, modifier = Modifier
+            },
+            modifier = Modifier
                 .width(180.dp)
                 .height(40.dp)
                 .graphicsLayer {

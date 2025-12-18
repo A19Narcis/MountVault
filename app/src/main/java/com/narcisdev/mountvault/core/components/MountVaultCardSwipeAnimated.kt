@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -146,15 +147,6 @@ fun MountVaultCardSwipeAnimated(
                     )
                 }
         ) {
-            // Ver si la carta que se muestra la tiene ya el usuario para ensñar el texto de NEW
-            Log.i(Constants.APP_NAME, "MOUNT ACTUAL: ${topCard.name}")
-            val repeatedCard = userMounts.any { it.id == topCard.id }
-            if (repeatedCard) {
-                selectedPackViewModel.setIsNewCard(false)
-            } else {
-                selectedPackViewModel.setIsNewCard(true)
-            }
-            Log.i(Constants.APP_NAME, "NEW MOUNT? ${selectedPackViewModel.getIsNewCard()}")
             MountVaultCard(
                 mount = topCard,
                 obtained = true,

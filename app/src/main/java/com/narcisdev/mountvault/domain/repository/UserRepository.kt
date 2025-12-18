@@ -10,4 +10,5 @@ interface UserRepository {
     suspend fun updateUserLocal(update: (UserEntity) -> UserEntity)
     suspend fun removeUserLocal()
     suspend fun updateFirebaseUser(user: UserEntity)
+    suspend fun updateFirebaseUserMounts(user: UserEntity)
 }

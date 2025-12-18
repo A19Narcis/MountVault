@@ -116,7 +116,6 @@ fun MountVaultPackCover(
             )
         }
 
-        // Texto del pack
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter

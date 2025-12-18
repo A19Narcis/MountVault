@@ -1,5 +1,6 @@
 package com.narcisdev.mountvault.core.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -80,7 +81,11 @@ fun ExpansionCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
-            .border( width = 2.dp, brush = Brush.horizontalGradient(colors), shape = MaterialTheme.shapes.extraLarge ),
+            .border(
+                width = 2.dp,
+                brush = Brush.horizontalGradient(colors),
+                shape = MaterialTheme.shapes.extraLarge
+            ),
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {

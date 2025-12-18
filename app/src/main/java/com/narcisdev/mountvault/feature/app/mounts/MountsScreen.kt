@@ -37,7 +37,6 @@ fun MountsScreen(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
-                        Log.i(Constants.APP_NAME, "Expansion clicked: $expansion\nMounts $mounts")
                         onExpansionClicked(mounts, expansion)
                     }
                 )

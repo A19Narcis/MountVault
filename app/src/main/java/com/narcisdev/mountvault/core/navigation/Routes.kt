@@ -3,6 +3,7 @@ package com.narcisdev.mountvault.core.navigation
 import androidx.navigation3.runtime.NavKey
 import com.narcisdev.mountvault.domain.entity.ExpansionEntity
 import com.narcisdev.mountvault.domain.entity.MountEntity
+import com.narcisdev.mountvault.domain.entity.PackEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,6 +16,8 @@ sealed class Routes : NavKey {
 
     @Serializable
     data object Main : Routes()
+
+    data class SelectedPack(val pack: PackEntity): Routes()
 
     @Serializable
     data object Mounts: Routes()

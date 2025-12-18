@@ -1,15 +1,13 @@
 package com.narcisdev.mountvault.feature.app.expansionMounts
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalOverscrollConfiguration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,20 +20,20 @@ import androidx.compose.foundation.overscroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.narcisdev.mountvault.R
-import com.narcisdev.mountvault.core.components.Constants
 import com.narcisdev.mountvault.core.components.MountVaultCard
+import com.narcisdev.mountvault.core.components.MountVaultRankBadge
 import com.narcisdev.mountvault.core.navigation.Routes
 import com.narcisdev.mountvault.core.theme.WowFont
 import com.narcisdev.mountvault.domain.entity.ExpansionEntity
@@ -51,8 +49,10 @@ fun ExpansionMountsScreen(
     onMountClicked: (MountEntity) -> Unit,
     navigateBack: () -> Unit
 ) {
-    val userMounts by viewModel.userMounts.collectAsStateWithLifecycle()
     //val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val userMounts by viewModel.userMounts.collectAsStateWithLifecycle()
+    val rarities = listOf("legendary", "epic", "rare", "common")
+    var selectedRarities by remember { mutableStateOf(setOf<String>()) }
 
     val image = remember(expansion.id) {
         when (expansion.id.replaceFirstChar { it.uppercase() }) {
@@ -110,7 +110,49 @@ fun ExpansionMountsScreen(
             )
         }
 
-        val filteredMounts = mounts.filter { it.expansionId == expansion.id }
+        val filteredMounts = remember(selectedRarities, mounts) {
+            mounts
+                .filter { it.expansionId == expansion.id }
+                .filter { selectedRarities.isEmpty() || selectedRarities.contains(it.rarity) }
+                .sortedWith(
+                    compareBy {
+                        when (it.rarity) {
+                            "legendary" -> 0
+                            "epic" -> 1
+                            "rare" -> 2
+                            "common" -> 3
+                            else -> 4
+                        }
+                    }
+                )
+        }
+
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            rarities.forEach { rarity ->
+                MountVaultRankBadge(
+                    rank = rarity,
+                    isSelected = selectedRarities.contains(rarity),
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clickable (
+                            indication = null,
+                            interactionSource = androidx.compose.foundation.interaction.MutableInteractionSource()
+                        ) {
+                            selectedRarities =
+                                if (selectedRarities.contains(rarity)) {
+                                    selectedRarities - rarity
+                                } else {
+                                    selectedRarities + rarity
+                                }
+                        }
+                )
+            }
+        }
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -121,7 +163,6 @@ fun ExpansionMountsScreen(
                 .padding(top = 10.dp, bottom = 10.dp)
                 .overscroll(null)
         ) {
-            Log.i(Constants.APP_NAME, userMounts.toString())
             items(filteredMounts) { mount ->
                 val obtained: Boolean = userMounts.any { it.id == mount.id }
                 MountVaultCard(mount = mount, obtained = obtained) {

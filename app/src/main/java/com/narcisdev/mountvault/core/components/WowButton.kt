@@ -29,6 +29,7 @@ fun WowButton(
     letterSpacing: Int = 1,
     fontWeight: FontWeight = FontWeight.Bold,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
 

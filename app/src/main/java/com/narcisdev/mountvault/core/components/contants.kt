@@ -77,6 +77,7 @@ object Constants {
             PackEntity(
                 id = 1,
                 name = "Normal",
+                numberOfCards = 5,
                 commonDropChange = "50",
                 rareDropChange = "30",
                 epicDropChange = "15",
@@ -85,6 +86,7 @@ object Constants {
             PackEntity(
                 id = 2,
                 name = "Epic",
+                numberOfCards = 7,
                 commonDropChange = "40",
                 rareDropChange = "30",
                 epicDropChange = "15",
@@ -93,6 +95,7 @@ object Constants {
             PackEntity(
                 id = 3,
                 name = "Mythic",
+                numberOfCards = 10,
                 commonDropChange = "40",
                 rareDropChange = "25",
                 epicDropChange = "20",

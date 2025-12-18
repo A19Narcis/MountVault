@@ -1,13 +1,8 @@
 package com.narcisdev.mountvault.core.components
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
@@ -19,9 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.narcisdev.mountvault.core.navigation.Routes
-import com.narcisdev.mountvault.domain.entity.MountEntity
 import com.narcisdev.mountvault.domain.entity.PackEntity
-import com.narcisdev.mountvault.feature.app.main.MainScreen
 import com.narcisdev.mountvault.feature.app.navigationBar.MyNavigationBar
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -30,7 +23,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun MountVaultPackCarousel(
     packs: List<PackEntity>,
-    onPackSelected: (PackEntity) -> Unit
+    onPackSelected: (PackEntity) -> Unit,
+    onPackClick: (PackEntity) -> Unit
 ) {
 
     val pagerState = rememberPagerState(
@@ -70,6 +64,7 @@ fun MountVaultPackCarousel(
                 scope.launch {
                     pagerState.animateScrollToPage(page)
                 }
+                onPackClick(packs[page])
             }
         )
     }
@@ -82,6 +77,6 @@ fun MountVaultPackCarouselPreview() {
     Scaffold(
         bottomBar = { MyNavigationBar(currentRoute = Routes.Main, backStack = mutableListOf()) }
     ) {
-        MountVaultPackCarousel(Constants.getAllPacks(), onPackSelected = {})
+        MountVaultPackCarousel(Constants.getAllPacks(), onPackSelected = {}, onPackClick = {})
     }
 }

@@ -42,6 +42,8 @@ import com.narcisdev.mountvault.feature.app.profile.ProfileScreen
 import com.narcisdev.mountvault.feature.app.profile.ProfileViewModel
 import com.narcisdev.mountvault.feature.app.selectedMount.SelectedMountScreen
 import com.narcisdev.mountvault.feature.app.selectedMount.SelectedMountViewModel
+import com.narcisdev.mountvault.feature.app.selectedPack.SelectedPackScreen
+import com.narcisdev.mountvault.feature.app.selectedPack.SelectedPackViewModel
 import com.narcisdev.mountvault.feature.auth.login.LoginScreen
 import com.narcisdev.mountvault.feature.auth.login.LoginViewModel
 import com.narcisdev.mountvault.feature.auth.register.RegisterScreen
@@ -181,7 +183,20 @@ fun MountVaultAppNav3(userPreferencesDataSource: UserPreferencesDataSource) {
                     val mainViewModel: MainViewModel = hiltViewModel(key = "main-$logoutCounter")
                     MainScreen(
                         viewModel = mainViewModel,
-                        padding = padding
+                        padding = padding,
+                    ) { selectedPack ->
+                        backStack.add(Routes.SelectedPack(pack = selectedPack))
+                    }
+                }
+                entry<Routes.SelectedPack> { route ->
+                    val selectedPackViewModel: SelectedPackViewModel = hiltViewModel(key = "selected-pack-$logoutCounter")
+                    SelectedPackScreen (
+                        packEntity = route.pack,
+                        viewModel = selectedPackViewModel,
+                        padding = padding,
+                        navigateBack = {
+                            backStack.removeLastOrNull()
+                        }
                     )
                 }
                 entry<Routes.Mounts> {

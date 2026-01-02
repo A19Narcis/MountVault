@@ -1,5 +1,6 @@
 package com.narcisdev.mountvault.feature.app.profile
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -51,6 +52,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.narcisdev.mountvault.R
+import com.narcisdev.mountvault.core.components.Constants
 import com.narcisdev.mountvault.core.components.Constants.expansionColorMap
 import com.narcisdev.mountvault.core.components.Constants.getExpansionColorsFromUrl
 import com.narcisdev.mountvault.core.components.ExpansionCard
@@ -217,7 +219,7 @@ fun ProfileScreen(
                             .padding(end = 20.dp)
                             .size(35.dp),
                         onClick = {
-                            viewModel.changeAvatarUrl(userLocal!!.userUrl)
+                            viewModel.changeAvatarUrl(currentUser.userUrl)
                             showEditUi = !showEditUi
                         }
                     )
@@ -276,7 +278,7 @@ fun ProfileScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .clickable (
+                                .clickable(
                                     interactionSource = remember { MutableInteractionSource() },
                                     indication = null
                                 ) { showDetailedImage = false },
@@ -386,7 +388,7 @@ fun ProfileScreen(
         SnackBarMountVault(
             visible = showSnackBar,
             time = 1500,
-            text = "Cambios guardados",
+            text = "Changes saved",
             onDismiss = { showSnackBar = !showSnackBar }
         )
     }

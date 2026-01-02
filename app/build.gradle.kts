@@ -92,11 +92,12 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
 
 
-    // Firestore / Auth / Storage
+    // Firestore / Auth / Storage / Messaging
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.messaging)
 
     // DataStore (para almacenar ajustes, login, etc)
     implementation(libs.datastore.preferences)

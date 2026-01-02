@@ -153,8 +153,10 @@ fun ProfileScreen(
             confirmButton = {
                 TextButton(onClick = {
                     showExitDialog = false
+                    if (selectedAvatarImage != currentUser.userUrl) {
+                        viewModel.changeAvatarUrl(originalUser.userUrl)
+                    }
                     showEditUi = false
-                    viewModel.changeAvatarUrl(userLocal!!.userUrl)
                 }) {
                     Text("Sí")
                 }
@@ -208,6 +210,7 @@ fun ProfileScreen(
                             if (originalUser.userUrl != currentUser.userUrl) {
                                 viewModel.changeAvatarUrl(uiState.selectedAvatarUrl)
                                 viewModel.updateUser()
+                                originalUser = originalUser.copy(userUrl = uiState.selectedAvatarUrl)
                             }
                             showEditUi = !showEditUi
                         }
@@ -219,7 +222,9 @@ fun ProfileScreen(
                             .padding(end = 20.dp)
                             .size(35.dp),
                         onClick = {
-                            viewModel.changeAvatarUrl(currentUser.userUrl)
+                            if (selectedAvatarImage != currentUser.userUrl) {
+                                viewModel.changeAvatarUrl(originalUser.userUrl)
+                            }
                             showEditUi = !showEditUi
                         }
                     )
@@ -345,8 +350,7 @@ fun ProfileScreen(
                                         .clickable {
                                             viewModel.changeAvatarUrl(uiState.avatars[index].url)
                                             imagesSheetOpen = false
-                                            currentUser =
-                                                currentUser.copy(userUrl = uiState.avatars[index].url)
+                                            currentUser = currentUser.copy(userUrl = uiState.avatars[index].url)
                                         },
                                     model = uiState.avatars[index].url,
                                     contentDescription = "Profile picture",

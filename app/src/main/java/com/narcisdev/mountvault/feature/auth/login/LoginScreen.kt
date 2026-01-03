@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.narcisdev.mountvault.R
 import com.narcisdev.mountvault.core.components.MountVaultErrorText
 import com.narcisdev.mountvault.core.components.MountVaultTextField
+import com.narcisdev.mountvault.core.components.RequestNotificationPermission
 import com.narcisdev.mountvault.core.components.WowButton
 
 @Composable
@@ -43,6 +44,8 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onRegisterClicked: () -> Unit
 ) {
+    RequestNotificationPermission()
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     var passwordHidden by remember { mutableStateOf(true) }

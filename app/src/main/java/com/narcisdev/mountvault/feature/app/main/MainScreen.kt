@@ -2,7 +2,6 @@ package com.narcisdev.mountvault.feature.app.main
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,7 +41,6 @@ import com.narcisdev.mountvault.core.theme.rankBLight
 import com.narcisdev.mountvault.core.theme.rankCLight
 import com.narcisdev.mountvault.core.theme.rankSLight
 import com.narcisdev.mountvault.core.theme.wow_darkBlue
-import com.narcisdev.mountvault.domain.entity.ExpansionEntity
 import com.narcisdev.mountvault.domain.entity.PackEntity
 import com.narcisdev.mountvault.feature.app.navigationBar.MyNavigationBar
 

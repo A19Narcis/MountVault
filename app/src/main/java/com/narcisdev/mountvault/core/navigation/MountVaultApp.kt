@@ -214,7 +214,7 @@ fun MountVaultAppNav3(userPreferencesDataSource: UserPreferencesDataSource) {
                         padding = padding,
                         viewModel = expansionMountsViewModel,
                         expansion = route.expansion,
-                        mounts = route.mounts,
+                        expansionMounts = route.mounts,
                         onMountClicked = { mount ->
                             backStack.add(Routes.SelectedMount(mount = mount))
                         },

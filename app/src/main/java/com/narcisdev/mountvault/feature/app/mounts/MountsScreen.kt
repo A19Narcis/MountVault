@@ -25,18 +25,25 @@ fun MountsScreen(
     onExpansionClicked: (List<MountEntity>, ExpansionEntity) -> Unit
 ) {
     val mounts by viewModel.mounts.collectAsStateWithLifecycle()
-    val userMounts by viewModel.userMounts.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
 
     Column(modifier = Modifier.padding(padding)) {
         LazyColumn() {
             items(uiState.expansions, key = { it.id }) { expansion ->
+
+                val expansionMounts = remember(expansion.id, mounts) {
+                    mounts.filter { it.expansionId == expansion.id }
+                }
+
                 MountScreenExpansionCard(
                     expansion = expansion,
+                    expansionMounts = expansionMounts,
                     modifier = Modifier.clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
+                        Log.i(Constants.APP_NAME, "EXPANSION: $expansion")
                         onExpansionClicked(mounts, expansion)
                     }
                 )

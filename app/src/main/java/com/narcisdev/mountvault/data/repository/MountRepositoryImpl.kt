@@ -7,7 +7,9 @@ import com.narcisdev.mountvault.data.dao.MountDao
 import com.narcisdev.mountvault.domain.entity.MountEntity
 import com.narcisdev.mountvault.domain.repository.MountRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +21,7 @@ class MountRepositoryImpl @Inject constructor(
 
     private val firestore = FirebaseFirestore.getInstance()
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun startMountsSync() {
 
         firestore.collection("mounts")
@@ -46,10 +49,14 @@ class MountRepositoryImpl @Inject constructor(
                     )
                 }.orEmpty()
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    mountDao.clearAll()
-                    mountDao.insertAll(mounts)
+                GlobalScope.launch(Dispatchers.IO) {
+                    mountDao.replaceAll(mounts)
                 }
+
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    mountDao.clearAll()
+//                    mountDao.insertAll(mounts)
+//                }
             }
     }
 

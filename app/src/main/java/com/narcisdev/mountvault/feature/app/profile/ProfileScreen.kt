@@ -73,6 +73,7 @@ fun ProfileScreen(
     onLogoutSuccess: () -> Unit,
 ) {
     val mounts by viewModel.mounts.collectAsStateWithLifecycle()
+    Log.i(Constants.APP_NAME, "MOUNTS DESDE PROFILE: ${mounts.size}")
     val userMounts by viewModel.userMounts.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isRefreshing by remember { mutableStateOf(false) }
@@ -350,7 +351,8 @@ fun ProfileScreen(
                                         .clickable {
                                             viewModel.changeAvatarUrl(uiState.avatars[index].url)
                                             imagesSheetOpen = false
-                                            currentUser = currentUser.copy(userUrl = uiState.avatars[index].url)
+                                            currentUser =
+                                                currentUser.copy(userUrl = uiState.avatars[index].url)
                                         },
                                     model = uiState.avatars[index].url,
                                     contentDescription = "Profile picture",

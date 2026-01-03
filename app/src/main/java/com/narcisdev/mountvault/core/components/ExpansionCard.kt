@@ -78,7 +78,7 @@ fun ExpansionCard(
     }
 
     val progress = remember(expansionId, userMountsForExpansion) {
-        calcularProgress(expansion, userMountsForExpansion)
+        calcularProgress(expansionMounts, userMountsForExpansion)
     }
 
     val backgroundBrush: Brush? = remember(expansionId, expansionMounts.size == userMountsForExpansion.size) {
@@ -158,11 +158,12 @@ fun ExpansionCard(
     Spacer(Modifier.height(16.dp))
 }
 private fun calcularProgress(
-    entity: ExpansionEntity, userMountsForExpansion: List<MountEntity>
+    expansionMounts: List<MountEntity>,
+    userMountsForExpansion: List<MountEntity>
 ): Float {
     val userMounts = userMountsForExpansion.size
     if (userMounts == 0) return 0f
-    return userMounts / entity.mounts.size.toFloat()
+    return userMounts / expansionMounts.size.toFloat()
 }
 
 @Preview
@@ -172,7 +173,6 @@ fun ExpansionCardPreview() {
         coverUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/expansions/classic/classic.webp",
         id = "vanilla",
         name = "World of Warcraft",
-        mounts = listOf("1", "2"),
         year = "2004"
     )
     ExpansionCard(

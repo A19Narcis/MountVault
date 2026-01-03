@@ -23,7 +23,6 @@ class ExpansionRepositoryImpl @Inject constructor (
                 ExpansionEntity(
                     id = doc.getString("id") ?: "No_Id",
                     name = doc.getString("name")?: "No_Name",
-                    mounts = (doc.get("mounts") as? List<*>)?.mapNotNull { it as? String } ?: emptyList(),
                     coverUrl = doc.getString("coverUrl")?: "No_ImageUrl",
                     year = doc.getString("year")?: "No_Cost",
 

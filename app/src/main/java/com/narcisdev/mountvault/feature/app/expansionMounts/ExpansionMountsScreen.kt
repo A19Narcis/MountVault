@@ -45,7 +45,7 @@ fun ExpansionMountsScreen(
     padding: PaddingValues,
     expansion: ExpansionEntity,
     viewModel: ExpansionMountsViewModel,
-    mounts: List<MountEntity>,
+    expansionMounts: List<MountEntity>,
     onMountClicked: (MountEntity) -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -90,8 +90,7 @@ fun ExpansionMountsScreen(
                     .padding(start = 20.dp, top = 5.dp)
                     .clickable {
                         navigateBack()
-                    }
-            )
+                    })
 
             Image(
                 painter = painterResource(image),
@@ -102,7 +101,7 @@ fun ExpansionMountsScreen(
             )
 
             Text(
-                text = "Mounts: ${expansion.mounts.size}",
+                text = "Mounts: ${expansionMounts.filter { it.expansionId == expansion.id }.size}",
                 fontFamily = WowFont,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -110,9 +109,8 @@ fun ExpansionMountsScreen(
             )
         }
 
-        val filteredMounts = remember(selectedRarities, mounts) {
-            mounts
-                .filter { it.expansionId == expansion.id }
+        val filteredMounts = remember(selectedRarities, expansionMounts) {
+            expansionMounts.filter { it.expansionId == expansion.id }
                 .filter { selectedRarities.isEmpty() || selectedRarities.contains(it.rarity) }
                 .sortedWith(
                     compareBy {
@@ -123,8 +121,7 @@ fun ExpansionMountsScreen(
                             "common" -> 3
                             else -> 4
                         }
-                    }
-                )
+                    })
         }
 
         Row(
@@ -139,18 +136,16 @@ fun ExpansionMountsScreen(
                     isSelected = selectedRarities.contains(rarity),
                     modifier = Modifier
                         .size(50.dp)
-                        .clickable (
+                        .clickable(
                             indication = null,
                             interactionSource = androidx.compose.foundation.interaction.MutableInteractionSource()
                         ) {
-                            selectedRarities =
-                                if (selectedRarities.contains(rarity)) {
-                                    selectedRarities - rarity
-                                } else {
-                                    selectedRarities + rarity
-                                }
-                        }
-                )
+                            selectedRarities = if (selectedRarities.contains(rarity)) {
+                                selectedRarities - rarity
+                            } else {
+                                selectedRarities + rarity
+                            }
+                        })
             }
         }
 
@@ -171,115 +166,4 @@ fun ExpansionMountsScreen(
             }
         }
     }
-}
-
-
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ExpansionMountsScreenPreview() {
-    val expansionMountsViewModel: ExpansionMountsViewModel =
-        hiltViewModel(key = "expansion-mounts-$1")
-    val expansion: ExpansionEntity = ExpansionEntity(
-        coverUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/expansions/classic/classic.webp",
-        id = "vanilla",
-        name = "World of Warcraft",
-        mounts = listOf("1", "2"),
-        year = "2004"
-    )
-    val mounts = listOf(
-        MountEntity(
-            cost = "0",
-            dropRate = 0.9,
-            id = "1",
-            name = "Swift Zulian Tiger",
-            faction = "Neutral",
-            imageUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/mounts/classic/swift-zulian-tiger.webp",
-            rarity = "common",
-            expansionId = "vanilla",
-            source = "Zul'Gurub - High Priest Thekal",
-            type = "ground"
-        ),
-        MountEntity(
-            cost = "0",
-            dropRate = 0.9,
-            id = "1",
-            name = "Swift Zulian Tiger",
-            faction = "Neutral",
-            imageUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/mounts/classic/swift-zulian-tiger.webp",
-            rarity = "epic",
-            expansionId = "tbc",
-            source = "Zul'Gurub - High Priest Thekal",
-            type = "ground"
-        ),
-        MountEntity(
-            cost = "0",
-            dropRate = 0.9,
-            id = "1",
-            name = "Swift Zulian Tiger",
-            faction = "Neutral",
-            imageUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/mounts/classic/swift-zulian-tiger.webp",
-            rarity = "legendary",
-            expansionId = "wotlk",
-            source = "Zul'Gurub - High Priest Thekal",
-            type = "ground"
-        ),
-        MountEntity(
-            cost = "0",
-            dropRate = 0.9,
-            id = "1",
-            name = "Swift Zulian Tiger",
-            faction = "Neutral",
-            imageUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/mounts/classic/swift-zulian-tiger.webp",
-            rarity = "common",
-            expansionId = "vanilla",
-            source = "Zul'Gurub - High Priest Thekal",
-            type = "ground"
-        ),
-        MountEntity(
-            cost = "0",
-            dropRate = 0.9,
-            id = "1",
-            name = "Swift Zulian Tiger",
-            faction = "Neutral",
-            imageUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/mounts/classic/swift-zulian-tiger.webp",
-            rarity = "epic",
-            expansionId = "tbc",
-            source = "Zul'Gurub - High Priest Thekal",
-            type = "ground"
-        ),
-        MountEntity(
-            cost = "0",
-            dropRate = 0.9,
-            id = "1",
-            name = "Swift Zulian Tiger",
-            faction = "Neutral",
-            imageUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/mounts/classic/swift-zulian-tiger.webp",
-            rarity = "legendary",
-            expansionId = "wotlk",
-            source = "Zul'Gurub - High Priest Thekal",
-            type = "ground"
-        )
-    )
-    Scaffold(
-        bottomBar = {
-            MyNavigationBar(
-                currentRoute = Routes.ExpansionMounts(mounts = listOf(), expansion = expansion),
-                backStack = mutableListOf()
-            )
-        }) { padding ->
-        ExpansionMountsScreen(
-            padding = padding,
-            expansion = expansion,
-            viewModel = expansionMountsViewModel,
-            mounts = mounts,
-            onMountClicked = {
-
-            },
-            navigateBack = {
-
-            }
-        )
-    }
-
 }

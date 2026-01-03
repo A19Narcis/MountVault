@@ -16,7 +16,7 @@ import com.narcisdev.mountvault.domain.entity.MountEntity
 
 @Database(
     entities = [MountEntity::class, ExpansionEntity::class, AvatarEntity::class],
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class MountVaultDatabase : RoomDatabase() {
@@ -29,7 +29,7 @@ abstract class MountVaultDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: MountVaultDatabase? = null
 
-        private val MIGRATION_8_1 = object : Migration(8, 1) {
+        private val MIGRATION_8_9 = object : Migration(8, 9) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 // Borrar tablas antiguas
                 db.execSQL("DROP TABLE IF EXISTS mounts")
@@ -57,7 +57,6 @@ abstract class MountVaultDatabase : RoomDatabase() {
                         id TEXT PRIMARY KEY NOT NULL,
                         name TEXT NOT NULL,
                         coverUrl TEXT NOT NULL,
-                        mounts TEXT NOT NULL,
                         year TEXT NOT NULL
                     )
                 """.trimIndent())
@@ -75,9 +74,9 @@ abstract class MountVaultDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MountVaultDatabase::class.java,
-                    "mount_vault_database_v2"
+                    "mount_vault_database_v3"
                 )
-                    //.addMigrations(MIGRATION_8_1)
+                    //.addMigrations(MIGRATION_8_9)
                     .fallbackToDestructiveMigration(true)
                     .fallbackToDestructiveMigrationOnDowngrade(true)
                     .build()

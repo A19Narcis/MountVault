@@ -33,11 +33,13 @@ import com.narcisdev.mountvault.R
 import com.narcisdev.mountvault.core.theme.ExpansionColors
 import com.narcisdev.mountvault.core.theme.WowFont
 import com.narcisdev.mountvault.domain.entity.ExpansionEntity
+import com.narcisdev.mountvault.domain.entity.MountEntity
 
 @Composable
 fun MountScreenExpansionCard(
     expansion: ExpansionEntity,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    expansionMounts: List<MountEntity>
 ) {
     val expansionId = expansion.id
 
@@ -153,7 +155,7 @@ fun MountScreenExpansionCard(
                 ) {
                     Text(
 
-                        text = "Mounts: ${expansion.mounts.size}", fontFamily = WowFont
+                        text = "Mounts: ${expansionMounts.size}", fontFamily = WowFont
                     )
                     Image(
                         painter = painterResource(R.drawable.dropdown),
@@ -176,12 +178,11 @@ fun MountCardPreview() {
         coverUrl = "https://ebmwaaoknfipdeingrue.supabase.co/storage/v1/object/public/mountVault/expansions/classic/classic.webp",
         id = "vanilla",
         name = "World of Warcraft",
-        mounts = listOf("1","2"),
         year = "2004"
     )
 
     Column() {
         Spacer(Modifier.height(20.dp))
-        MountScreenExpansionCard(expansion)
+        MountScreenExpansionCard(expansion = expansion, expansionMounts = listOf())
     }
 }

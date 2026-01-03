@@ -60,7 +60,6 @@ class MountsViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _uiState.update {
                     it.copy(
-
                         expansions = responseGetExpansions,
                         isLoading = false,
                     )

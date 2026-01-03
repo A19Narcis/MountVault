@@ -20,7 +20,7 @@ Se trata de un juego de cartas donde puedes obtener **monturas** del juego World
 - Abrir sobres de cartas con monturas de WoW.
 - Monturas clasificadas por rareza: Común, Rara, Épica y Legendaria.
 - Colección completa con seguimiento del progreso.
-- Animaciones y efectos visuales al desbloquear monturas.
+- Animaciones en los sobres de cartas.
 - Interfaz intuitiva y visualmente atractiva adaptada a móviles.
 
 ## 🛠️ Tecnologías utilizadas

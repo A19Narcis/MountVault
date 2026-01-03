@@ -10,15 +10,8 @@ Se trata de un juego de cartas donde puedes obtener **monturas** del juego World
 
 ![Pantalla principal](screenshots/main_screen.jpg)
 ![Expansiones](screenshots/expansions_screen.jpg)
-![Abrir un sobre](screenshots/open_pack.png)
+![Abrir un sobre](screenshots/open_pack.jpg)
 ![Colección de monturas](screenshots/profile_screen.jpg)
-
-<p>
-  <img src="screenshots/main_screen.jpg"/>
-  <img src="screenshots/expansions_screen.jpg" width="250"/>
-  <img src="screenshots/open_pack.png" width="250"/>
-  <img src="screenshots/profile_screen.jpg" width="250"/>
-</p>
 
 ## ✨ Características principales
 

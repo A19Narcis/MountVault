@@ -9,9 +9,11 @@ Se trata de un juego de cartas donde puedes obtener **monturas** del juego World
 ¡Mira lo que te espera al abrir un sobre!
 
 ![Pantalla principal](screenshots/main_screen.jpg)
-![Expansiones](screenshots/expansions_screen.jpg)
 ![Abrir un sobre](screenshots/open_pack.jpg)
+![Expansiones](screenshots/expansions_screen.jpg)
+![ExpansionClassic](screenshots/classic_expansion_screen.jpg)
 ![Colección de monturas](screenshots/profile_screen.jpg)
+![Avatares](screenshots/avatars_screen.jpg)
 
 ## ✨ Características principales
 
